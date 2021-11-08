@@ -18,7 +18,7 @@ public interface Todo_interface extends Remote {
 
     public boolean add_todo(String action_item, LocalDate date) throws RemoteException;
 
-    public boolean remove_todo_date() throws RemoteException;
+    public boolean remove_todo_date(LocalDate date) throws RemoteException;
 
     public boolean remove_todo_client() throws RemoteException;
 

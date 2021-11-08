@@ -64,8 +64,9 @@ public class Todo_list {
     }
 
     // Method to remove an action item from the list
-    public String remove_todo(LocalDate dueDate) {
+    public ArrayList<Todo_item> remove_todo_for_date(LocalDate dueDate) {
 
+        ArrayList<Todo_item> deleted_todos = new ArrayList<>();
         int i = 0;
         // Declare an iterator to avoid java.util.concurrent modification exception
         Iterator<Todo_item> iterator = todo_items.iterator();
@@ -76,21 +77,13 @@ public class Todo_list {
 
             if (item.get_dueDate().isEqual(dueDate)) {
                 System.out.println("Removing Item: " + item.toString());
-
-                // Store item info string in a variable
                 i++;
-                // Remove item from iterator not the list to avoid concurrent modification
-                // exception
+                deleted_todos.add(item);
                 iterator.remove();
             }
         }
+        return deleted_todos;
 
-        String return_string = Integer.toString(i) + " items removed";
-        if (i > 0) {
-            return return_string;
-        }
-        // Return error message
-        return "Cannot find Item";
     }
 
     // Method to remove an action item from the list

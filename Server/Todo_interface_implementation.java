@@ -26,10 +26,6 @@ public class Todo_interface_implementation implements Todo_interface, Serializab
     public ArrayList<Todo_item> get_todo_list() throws RemoteException {
         System.out.println("Get Todo list method called");
         ArrayList<Todo_item> return_list = todo_list.get_todo_list();
-        System.out.println("Complete Todo List received size: " + return_list.size());
-        for (Todo_item item : return_list) {
-            System.out.println(item.toString());
-        }
         return return_list;
     }
 
@@ -60,14 +56,27 @@ public class Todo_interface_implementation implements Todo_interface, Serializab
     }
 
     // Method to remove todo for a certain date
-    public boolean remove_todo_date() throws RemoteException {
+    public boolean remove_todo_date(LocalDate date) throws RemoteException {
         System.out.println("Method to remove todo for a certain date");
+        ArrayList<Todo_item> deleted_todos = todo_list.remove_todo_for_date(date);
+        System.out.println("Deleted Todos: ");
+        display_list(deleted_todos);
         return true;
     }
 
     // Method to display appropriate messages on termination
     public void terminate_process() throws RemoteException {
         System.out.println("Process will be terminated");
+    }
+
+    // Method to display the list passed as parameter
+    public static void display_list(ArrayList<Todo_item> list) {
+        System.out.println("-------------------------------------------------------------");
+        System.out.println("Your Requested Todo List: ");
+        for (Todo_item item : list) {
+            System.out.println(item.toString());
+        }
+        System.out.println("-------------------------------------------------------------");
     }
 
 }

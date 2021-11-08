@@ -78,8 +78,12 @@ public class Client {
                     case 3:
                         Scanner in3 = new Scanner(System.in);
 
+                        // Get input for date
+                        System.out.println("Enter year: ");
                         int year3 = Integer.parseInt(in3.nextLine());
+                        System.out.println("Enter month: ");
                         int month3 = Integer.parseInt(in3.nextLine());
+                        System.out.println("Enter day: ");
                         int day3 = Integer.parseInt(in3.nextLine());
                         LocalDate dueDate3 = LocalDate.of(year3, month3, day3);
 
@@ -117,7 +121,19 @@ public class Client {
 
                     // Remove the Todos for a certain date
                     case 5:
-                        // stub1.remove_todo_date();
+
+                        Scanner in5 = new Scanner(System.in);
+
+                        // Get input for date
+                        System.out.println("Enter year: ");
+                        int year5 = Integer.parseInt(in5.nextLine());
+                        System.out.println("Enter month: ");
+                        int month5 = Integer.parseInt(in5.nextLine());
+                        System.out.println("Enter day: ");
+                        int day5 = Integer.parseInt(in5.nextLine());
+                        LocalDate dueDate5 = LocalDate.of(year5, month5, day5);
+
+                        stub1.remove_todo_date(dueDate5);
                         break;
 
                     // Remove the Todos for a certain Client
