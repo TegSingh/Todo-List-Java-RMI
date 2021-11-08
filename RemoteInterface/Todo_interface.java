@@ -18,4 +18,6 @@ public interface Todo_interface extends Remote {
 
     public void remove_todo_client() throws RemoteException;
 
+    public void terminate_process() throws RemoteException;
+
 }

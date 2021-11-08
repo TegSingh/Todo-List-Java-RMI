@@ -40,4 +40,9 @@ public class Todo_interface_implementation implements Todo_interface {
     public void remove_todo_date() throws RemoteException {
         System.out.println("Method to remove todo for a certain date");
     }
+
+    // Method to display appropriate messages on termination
+    public void terminate_process() throws RemoteException {
+        System.out.println("Process will be terminated");
+    }
 }
