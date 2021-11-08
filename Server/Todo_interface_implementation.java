@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.xml.namespace.QName;
+
 import RemoteInterface.Todo_interface;
 
 import Todo.Todo_item;
@@ -17,9 +19,34 @@ public class Todo_interface_implementation implements Todo_interface, Serializab
     // Create a static variable todo_list to be shared for all clients
     private static Todo_list todo_list = new Todo_list();
 
+    private static ArrayList<Integer> active_client_list = new ArrayList<>();
+
     // constructor
     public Todo_interface_implementation() {
 
+    }
+
+    // Method to Add and validate client
+    public boolean update_client(int id) {
+
+        // Check if ID already exists
+        for (Integer client_id : active_client_list) {
+            if (id == client_id) {
+                return false;
+            }
+        }
+
+        // Add the new client to the list of active clients
+        active_client_list.add(id);
+
+        // Display all the active clients
+        System.out.println("Active Clients: ");
+        for (Integer client_id : active_client_list) {
+            System.out.print(client_id + ", ");
+        }
+
+        System.out.println();
+        return true;
     }
 
     // Method to display the entire list
@@ -43,7 +70,6 @@ public class Todo_interface_implementation implements Todo_interface, Serializab
 
     // Method to add todo to the list
     public boolean add_todo(int id, String action_item, LocalDate date) throws RemoteException {
-        System.out.println("Method to add todo to the list");
         boolean success = todo_list.add_todo(id, action_item, date);
         System.out.println("Todo added to the list");
         return success;
@@ -52,7 +78,6 @@ public class Todo_interface_implementation implements Todo_interface, Serializab
     // Method to remove todo for a client
     public boolean remove_todo_client(int id) throws RemoteException {
 
-        System.out.println("Method to remove todo for a certain client");
         ArrayList<Todo_item> deleted_todos = todo_list.remove_todo_by_id(id);
 
         if (deleted_todos.size() != 0) {
@@ -86,8 +111,24 @@ public class Todo_interface_implementation implements Todo_interface, Serializab
     }
 
     // Method to display appropriate messages on termination
-    public void terminate_process() throws RemoteException {
-        System.out.println("Process will be terminated");
+    public void terminate_process(int id) throws RemoteException {
+
+        System.out.println("Client ID " + id + ": Process will be terminated");
+
+        // Remove the id from the list of active lists
+        for (int i = 0; i < active_client_list.size(); i++) {
+            if (id == active_client_list.get(i)) {
+                active_client_list.remove(i);
+            }
+        }
+
+        // Display all the active clients
+        System.out.println("Active Clients: ");
+        for (Integer client_id : active_client_list) {
+            System.out.print(client_id + ", ");
+        }
+        System.out.println();
+
     }
 
     // Method to display the list passed as parameter

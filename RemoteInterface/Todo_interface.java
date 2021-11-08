@@ -22,6 +22,8 @@ public interface Todo_interface extends Remote {
 
     public boolean remove_todo_client(int id) throws RemoteException;
 
-    public void terminate_process() throws RemoteException;
+    public void terminate_process(int id) throws RemoteException;
+
+    public boolean update_client(int id) throws RemoteException;
 
 }

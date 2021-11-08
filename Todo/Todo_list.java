@@ -28,7 +28,7 @@ public class Todo_list {
 
     // Method to get the entire todo list
     public ArrayList<Todo_item> get_todo_list() {
-        System.out.println("Get todo list method called from Todo package");
+        // System.out.println("Get todo list method called from Todo package");
         return todo_items;
     }
 

@@ -56,6 +56,7 @@ public class Client {
 
             // Print the Client ID
             System.out.println("ASSIGNED CLIENT ID: " + id);
+            stub1.update_client(id);
             try {
 
                 int choice = 1;
@@ -162,7 +163,7 @@ public class Client {
 
                     // Wrong input: terminate process
                     default:
-                        stub1.terminate_process();
+                        stub1.terminate_process(id);
                         break;
                     }
 
