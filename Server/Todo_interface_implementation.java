@@ -31,7 +31,7 @@ public class Todo_interface_implementation implements Todo_interface, Serializab
 
     // Method to display todo list for a client
     public ArrayList<Todo_item> get_client_todo_list(int id) throws RemoteException {
-        System.out.println("Display Todo list method called for a certain client");
+        System.out.println("Generating Todo list for client ID: " + id);
         return todo_list.get_id_todo_list(id);
     }
 
@@ -42,26 +42,47 @@ public class Todo_interface_implementation implements Todo_interface, Serializab
     }
 
     // Method to add todo to the list
-    public boolean add_todo(String action_item, LocalDate date) throws RemoteException {
+    public boolean add_todo(int id, String action_item, LocalDate date) throws RemoteException {
         System.out.println("Method to add todo to the list");
-        boolean success = todo_list.add_todo(1000, action_item, date);
+        boolean success = todo_list.add_todo(id, action_item, date);
         System.out.println("Todo added to the list");
         return success;
     }
 
     // Method to remove todo for a client
-    public boolean remove_todo_client() throws RemoteException {
+    public boolean remove_todo_client(int id) throws RemoteException {
+
         System.out.println("Method to remove todo for a certain client");
-        return true;
+        ArrayList<Todo_item> deleted_todos = todo_list.remove_todo_by_id(id);
+
+        if (deleted_todos.size() != 0) {
+            // System.out.println("Deleted Todos: ");
+            // display_list(deleted_todos);
+            System.out.print("Number of todos deleted: " + deleted_todos.size());
+            return true;
+        } else {
+            System.out.println("Nothing to delete for client ID: " + id);
+            return false;
+        }
     }
 
     // Method to remove todo for a certain date
     public boolean remove_todo_date(LocalDate date) throws RemoteException {
+
         System.out.println("Method to remove todo for a certain date");
         ArrayList<Todo_item> deleted_todos = todo_list.remove_todo_for_date(date);
-        System.out.println("Deleted Todos: ");
-        display_list(deleted_todos);
-        return true;
+
+        if (deleted_todos.size() != 0) {
+
+            // System.out.println("Deleted Todos: ");
+            // display_list(deleted_todos);
+
+            System.out.println("Number of todos deleted: " + deleted_todos.size());
+            return true;
+        } else {
+            System.out.println("Nothing to delete for Date: " + date.toString());
+            return false;
+        }
     }
 
     // Method to display appropriate messages on termination

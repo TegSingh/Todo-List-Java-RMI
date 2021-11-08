@@ -9,8 +9,12 @@ import RemoteInterface.Todo_interface;
 
 import Todo.Todo_item;
 import Todo.Todo_list;
+import java.util.Random;
 
 public class Client {
+
+    public Client() {
+    }
 
     // Method to display the Menu
     public static void displayMenu() {
@@ -39,6 +43,10 @@ public class Client {
         // Create a scanner object
         Scanner sc = new Scanner(System.in);
 
+        Random rn = new Random();
+        // Use a random 4 digit ID for client
+        int id = rn.nextInt(9000) + 1000;
+
         try {
 
             Registry registry = LocateRegistry.getRegistry("127.0.0.1", 1099);
@@ -46,6 +54,8 @@ public class Client {
             Todo_interface stub1 = (Todo_interface) registry.lookup("Todo1");
             System.out.println("Bound stub received");
 
+            // Print the Client ID
+            System.out.println("ASSIGNED CLIENT ID: " + id);
             try {
 
                 int choice = 1;
@@ -69,7 +79,6 @@ public class Client {
                     // Display the Todo List for a certain client
                     case 2:
                         // FIGURE OUT HOW TO AUTO RECEIVE CLIENT ID USE THE FOLLOWING CODE TILL THEN
-                        int id = 1000;
                         ArrayList<Todo_item> list2 = stub1.get_client_todo_list(id);
                         display_list(list2);
                         break;
@@ -109,7 +118,7 @@ public class Client {
                         int day4 = Integer.parseInt(in4.nextLine());
                         LocalDate dueDate4 = LocalDate.of(year4, month4, day4);
 
-                        boolean success4 = stub1.add_todo(action_item4, dueDate4);
+                        boolean success4 = stub1.add_todo(id, action_item4, dueDate4);
 
                         if (success4) {
                             System.out.println("Todo added successfully");
@@ -133,17 +142,27 @@ public class Client {
                         int day5 = Integer.parseInt(in5.nextLine());
                         LocalDate dueDate5 = LocalDate.of(year5, month5, day5);
 
-                        stub1.remove_todo_date(dueDate5);
+                        boolean success5 = stub1.remove_todo_date(dueDate5);
+                        if (success5) {
+                            System.out.println("Items removed successfully");
+                        } else {
+                            System.out.println("Nothing to remove");
+                        }
                         break;
 
                     // Remove the Todos for a certain Client
                     case 6:
-                        // stub1.remove_todo_client();
+                        boolean success6 = stub1.remove_todo_client(id);
+                        if (success6) {
+                            System.out.println("Items removed successfully");
+                        } else {
+                            System.out.println("Nothing to remove");
+                        }
                         break;
 
                     // Wrong input: terminate process
                     default:
-                        // stub1.terminate_process();
+                        stub1.terminate_process();
                         break;
                     }
 

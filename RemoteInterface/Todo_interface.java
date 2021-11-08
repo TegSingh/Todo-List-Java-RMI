@@ -16,11 +16,11 @@ public interface Todo_interface extends Remote {
 
     public ArrayList<Todo_item> get_date_todo_list(LocalDate date) throws RemoteException;
 
-    public boolean add_todo(String action_item, LocalDate date) throws RemoteException;
+    public boolean add_todo(int id, String action_item, LocalDate date) throws RemoteException;
 
     public boolean remove_todo_date(LocalDate date) throws RemoteException;
 
-    public boolean remove_todo_client() throws RemoteException;
+    public boolean remove_todo_client(int id) throws RemoteException;
 
     public void terminate_process() throws RemoteException;
 
