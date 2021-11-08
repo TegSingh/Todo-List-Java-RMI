@@ -13,21 +13,54 @@ public class Todo_list {
     }
 
     // Method to add an action item to the list
-    public void add_todo(int id, String action_item, LocalDate dueDate) {
+    public boolean add_todo(int id, String action_item, LocalDate dueDate) {
 
         // Create a Todo object
         Todo_item item = new Todo_item(id, action_item, dueDate);
         // Add the item to the list
         if (todo_items.add(item)) {
-            System.out.println("Item - " + item.toString() + " Added Successfully");
+            return true;
         } else {
-            System.out.println("Could not add item");
+            return false;
         }
 
     }
 
+    // Method to get the entire todo list
     public ArrayList<Todo_item> get_todo_list() {
+        System.out.println("Get todo list method called from Todo package");
         return todo_items;
+    }
+
+    // Method to get Todo list filtered based on id (for client specific removal)
+    public ArrayList<Todo_item> get_id_todo_list(int id) {
+        ArrayList<Todo_item> return_todo_items = new ArrayList<Todo_item>();
+
+        // Look for todos for a specific date by looping through the entire list
+        for (Todo_item item : todo_items) {
+            if (item.get_id() == id) {
+                // Add
+                return_todo_items.add(item);
+            }
+        }
+
+        return return_todo_items;
+    }
+
+    // Method to return the action items due at a certain date
+    public ArrayList<Todo_item> get_todos_for_date(LocalDate dueDate) {
+
+        ArrayList<Todo_item> return_todo_items = new ArrayList<Todo_item>();
+
+        // Look for todos for a specific date by looping through the entire list
+        for (Todo_item item : todo_items) {
+            if (item.get_dueDate().isEqual(dueDate)) {
+                // Add
+                return_todo_items.add(item);
+            }
+        }
+
+        return return_todo_items;
     }
 
     // Method to remove an action item from the list
@@ -86,22 +119,6 @@ public class Todo_list {
         }
         // Return error message
         return "Cannot find Item";
-    }
-
-    // Method to return the action items due at a certain date
-    public void get_todos_for_date(LocalDate dueDate) {
-
-        System.out.println("-----------------------------------------------------------------------------");
-        System.out.println("Todos for Date: " + dueDate.toString());
-
-        // Look for todos for a specific date by looping through the entire list
-        for (Todo_item item : todo_items) {
-            if (item.get_dueDate().isEqual(dueDate)) {
-                System.out.println(item.toString());
-            }
-        }
-
-        System.out.println("-----------------------------------------------------------------------------");
     }
 
     // Method to display the entire list

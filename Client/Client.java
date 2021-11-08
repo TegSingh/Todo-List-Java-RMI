@@ -1,9 +1,14 @@
 package Client;
 
 import java.rmi.registry.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import RemoteInterface.Todo_interface;
+
+import Todo.Todo_item;
+import Todo.Todo_list;
 
 public class Client {
 
@@ -19,62 +24,116 @@ public class Client {
         System.out.println("Choose an INTEGER between 1-6: ");
     }
 
+    // Method to display the list passed as parameter
+    public static void display_list(ArrayList<Todo_item> list) {
+        System.out.println("-------------------------------------------------------------");
+        System.out.println("Your Requested Todo List: ");
+        for (Todo_item item : list) {
+            System.out.println(item.toString());
+        }
+        System.out.println("-------------------------------------------------------------");
+    }
+
     public static void main(String[] args) {
 
         // Create a scanner object
         Scanner sc = new Scanner(System.in);
 
         try {
+
             Registry registry = LocateRegistry.getRegistry("127.0.0.1", 1099);
             System.out.println("Registry located");
+            Todo_interface stub1 = (Todo_interface) registry.lookup("Todo1");
+            System.out.println("Bound stub received");
 
             try {
-                Todo_interface stub1 = (Todo_interface) registry.lookup("Todo1");
-                System.out.println("Bound stub received");
+
                 int choice = 1;
                 while (choice >= 1 && choice <= 6) {
+
                     displayMenu();
                     choice = sc.nextInt();
                     System.out.println("You entered: " + choice);
 
                     switch (choice) {
+
                     // Display the Todo List
                     case 1:
-                        stub1.display_todo_list();
-                        ;
+                        System.out.println("Printing the Todo List: ");
+                        ArrayList<Todo_item> list1 = stub1.get_todo_list();
+
+                        display_list(list1);
+
                         break;
+
                     // Display the Todo List for a certain client
                     case 2:
-                        stub1.display_client_todo_list();
+                        // FIGURE OUT HOW TO AUTO RECEIVE CLIENT ID USE THE FOLLOWING CODE TILL THEN
+                        int id = 1000;
+                        ArrayList<Todo_item> list2 = stub1.get_client_todo_list(id);
+                        display_list(list2);
                         break;
+
                     // Display the Todo List for a certain date
                     case 3:
-                        stub1.display_date_todo_list();
-                        ;
+                        Scanner in3 = new Scanner(System.in);
+
+                        int year3 = Integer.parseInt(in3.nextLine());
+                        int month3 = Integer.parseInt(in3.nextLine());
+                        int day3 = Integer.parseInt(in3.nextLine());
+                        LocalDate dueDate3 = LocalDate.of(year3, month3, day3);
+
+                        // Get the list from the server
+                        ArrayList<Todo_item> list3 = stub1.get_date_todo_list(dueDate3);
+                        // Display the received list
+                        display_list(list3);
+
                         break;
+
                     // Add a Todo to the list
                     case 4:
-                        stub1.add_todo();
-                        ;
+                        // Get information from the client
+                        Scanner in4 = new Scanner(System.in);
+                        System.out.println("Enter Todo Name: ");
+                        String action_item4 = in4.nextLine();
+
+                        System.out.println("Enter year: ");
+                        int year4 = Integer.parseInt(in4.nextLine());
+                        System.out.println("Enter month: ");
+                        int month4 = Integer.parseInt(in4.nextLine());
+                        System.out.println("Enter day: ");
+                        int day4 = Integer.parseInt(in4.nextLine());
+                        LocalDate dueDate4 = LocalDate.of(year4, month4, day4);
+
+                        boolean success4 = stub1.add_todo(action_item4, dueDate4);
+
+                        if (success4) {
+                            System.out.println("Todo added successfully");
+                        } else {
+                            System.out.println("Could not add Todo");
+                        }
+
                         break;
+
                     // Remove the Todos for a certain date
                     case 5:
-                        stub1.remove_todo_date();
-                        ;
+                        // stub1.remove_todo_date();
                         break;
+
                     // Remove the Todos for a certain Client
                     case 6:
-                        stub1.remove_todo_client();
-                        ;
+                        // stub1.remove_todo_client();
                         break;
+
+                    // Wrong input: terminate process
                     default:
-                        stub1.terminate_process();
+                        // stub1.terminate_process();
                         break;
                     }
 
                 }
             } catch (Exception e) {
-                System.out.println("Bound stub couldnt be received");
+                System.out.println("Exception occured in Switch case");
                 e.printStackTrace();
             }
 

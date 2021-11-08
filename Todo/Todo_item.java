@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.*;
 import java.time.*;
 
-public class Todo_item {
+public class Todo_item implements Serializable {
 
     private int id; // Client ID
     private String action_item; // Name of the to-do item

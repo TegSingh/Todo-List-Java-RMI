@@ -19,11 +19,11 @@ rmiregistry 8000
 Run the Server
 
 ```bash
-java -cp output/ Server.Server
+java -Djava.security.policy=policy.txt -cp output/ Server.Server
 ```
 
 Run the Client
 
 ```bash
-java -cp output/ Client.Client
+java -Djava.security.policy=policy.txt -cp output/ Client.Client
 ```
