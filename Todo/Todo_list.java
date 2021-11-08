@@ -76,7 +76,7 @@ public class Todo_list {
             Todo_item item = iterator.next();
 
             if (item.get_dueDate().isEqual(dueDate)) {
-                System.out.println("Removing Item: " + item.toString());
+                // System.out.println("Removing Item: " + item.toString());
                 deleted_todos.add(item);
                 iterator.remove();
             }
@@ -98,7 +98,7 @@ public class Todo_list {
             Todo_item item = iterator.next();
 
             if (item.get_id() == client_id) {
-                System.out.println("Removing Item: " + item.toString());
+                // System.out.println("Removing Item: " + item.toString());
                 deleted_todos.add(item);
                 iterator.remove();
             }

@@ -71,7 +71,7 @@ public class Client {
                     // Display the Todo List
                     case 1:
                         System.out.println("Printing the Todo List: ");
-                        ArrayList<Todo_item> list1 = stub1.get_todo_list();
+                        ArrayList<Todo_item> list1 = stub1.get_todo_list(id);
 
                         display_list(list1);
 
@@ -98,7 +98,7 @@ public class Client {
                         LocalDate dueDate3 = LocalDate.of(year3, month3, day3);
 
                         // Get the list from the server
-                        ArrayList<Todo_item> list3 = stub1.get_date_todo_list(dueDate3);
+                        ArrayList<Todo_item> list3 = stub1.get_date_todo_list(id, dueDate3);
                         // Display the received list
                         display_list(list3);
 
@@ -143,7 +143,7 @@ public class Client {
                         int day5 = Integer.parseInt(in5.nextLine());
                         LocalDate dueDate5 = LocalDate.of(year5, month5, day5);
 
-                        boolean success5 = stub1.remove_todo_date(dueDate5);
+                        boolean success5 = stub1.remove_todo_date(id, dueDate5);
                         if (success5) {
                             System.out.println("Items removed successfully");
                         } else {
@@ -171,6 +171,7 @@ public class Client {
             } catch (Exception e) {
                 System.out.println("Exception occured in Switch case");
                 e.printStackTrace();
+                stub1.terminate_process(id);
             }
 
         } catch (Exception e) {

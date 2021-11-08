@@ -40,7 +40,7 @@ public class Todo_interface_implementation implements Todo_interface, Serializab
         active_client_list.add(id);
 
         // Display all the active clients
-        System.out.println("Active Clients: ");
+        System.out.print("SERVER: Active Clients:- ");
         for (Integer client_id : active_client_list) {
             System.out.print(client_id + ", ");
         }
@@ -50,51 +50,52 @@ public class Todo_interface_implementation implements Todo_interface, Serializab
     }
 
     // Method to display the entire list
-    public ArrayList<Todo_item> get_todo_list() throws RemoteException {
-        System.out.println("Get Todo list method called");
+    public ArrayList<Todo_item> get_todo_list(int id) throws RemoteException {
+        System.out.println("CLIENT ID " + id + ": Requested Display Complete List");
         ArrayList<Todo_item> return_list = todo_list.get_todo_list();
         return return_list;
     }
 
     // Method to display todo list for a client
     public ArrayList<Todo_item> get_client_todo_list(int id) throws RemoteException {
-        System.out.println("Generating Todo list for client ID: " + id);
+        System.out.println("CLIENT ID " + id + ": Requested Client Specific Todo List");
         return todo_list.get_id_todo_list(id);
     }
 
     // Method to display todos for a certain data
-    public ArrayList<Todo_item> get_date_todo_list(LocalDate date) throws RemoteException {
-        System.out.println("Display Todo list method called a certain date");
+    public ArrayList<Todo_item> get_date_todo_list(int id, LocalDate date) throws RemoteException {
+        System.out.println("CLIENT ID " + id + ": Requested Date Specific Todo List");
         return todo_list.get_todos_for_date(date);
     }
 
     // Method to add todo to the list
     public boolean add_todo(int id, String action_item, LocalDate date) throws RemoteException {
+        System.out.println("CLIENT ID " + id + ": Adding Action Item to the List");
         boolean success = todo_list.add_todo(id, action_item, date);
-        System.out.println("Todo added to the list");
         return success;
     }
 
     // Method to remove todo for a client
     public boolean remove_todo_client(int id) throws RemoteException {
 
+        System.out.println("CLIENT ID " + id + ": Requested Deletion of its Todos");
         ArrayList<Todo_item> deleted_todos = todo_list.remove_todo_by_id(id);
 
         if (deleted_todos.size() != 0) {
             // System.out.println("Deleted Todos: ");
             // display_list(deleted_todos);
-            System.out.print("Number of todos deleted: " + deleted_todos.size());
+            System.out.println("CLIENT ID " + id + ": Number of todos deleted: " + deleted_todos.size());
             return true;
         } else {
-            System.out.println("Nothing to delete for client ID: " + id);
+            System.out.println("CLIENT ID " + id + ": No items found to delete");
             return false;
         }
     }
 
     // Method to remove todo for a certain date
-    public boolean remove_todo_date(LocalDate date) throws RemoteException {
+    public boolean remove_todo_date(int id, LocalDate date) throws RemoteException {
 
-        System.out.println("Method to remove todo for a certain date");
+        System.out.println("CLIENT ID " + id + ": Requested Date specific deletion of Todos");
         ArrayList<Todo_item> deleted_todos = todo_list.remove_todo_for_date(date);
 
         if (deleted_todos.size() != 0) {
@@ -102,10 +103,10 @@ public class Todo_interface_implementation implements Todo_interface, Serializab
             // System.out.println("Deleted Todos: ");
             // display_list(deleted_todos);
 
-            System.out.println("Number of todos deleted: " + deleted_todos.size());
+            System.out.println("CLIENT ID " + id + ": Number of todos deleted: " + deleted_todos.size());
             return true;
         } else {
-            System.out.println("Nothing to delete for Date: " + date.toString());
+            System.out.println("CLIENT ID " + id + ": No items found to delete");
             return false;
         }
     }
@@ -123,7 +124,7 @@ public class Todo_interface_implementation implements Todo_interface, Serializab
         }
 
         // Display all the active clients
-        System.out.println("Active Clients: ");
+        System.out.print("SERVER: Active Clients:- ");
         for (Integer client_id : active_client_list) {
             System.out.print(client_id + ", ");
         }

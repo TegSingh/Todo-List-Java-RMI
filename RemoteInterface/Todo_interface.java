@@ -10,15 +10,15 @@ import Todo.Todo_item;
 public interface Todo_interface extends Remote {
 
     // Define API here
-    public ArrayList<Todo_item> get_todo_list() throws RemoteException;
+    public ArrayList<Todo_item> get_todo_list(int id) throws RemoteException;
 
     public ArrayList<Todo_item> get_client_todo_list(int client_id) throws RemoteException;
 
-    public ArrayList<Todo_item> get_date_todo_list(LocalDate date) throws RemoteException;
+    public ArrayList<Todo_item> get_date_todo_list(int id, LocalDate date) throws RemoteException;
 
     public boolean add_todo(int id, String action_item, LocalDate date) throws RemoteException;
 
-    public boolean remove_todo_date(LocalDate date) throws RemoteException;
+    public boolean remove_todo_date(int id, LocalDate date) throws RemoteException;
 
     public boolean remove_todo_client(int id) throws RemoteException;
 
