@@ -185,4 +185,43 @@ public class Todo_interface_implementation implements Todo_interface, Serializab
 
     }
 
+    // Method to download todo file for client
+    public byte[] get_todo_file_client(int id) {
+        ArrayList<Todo_item> client_todo_items = todo_list.get_id_todo_list(id);
+
+        // Creating the File using File Writer
+        System.out.println("Client ID " + id + ": Requested Client Specific Todo File ");
+
+        try {
+            FileWriter todo_file = new FileWriter("Server/Todo_list_" + id + ".txt");
+            for (Todo_item item : client_todo_items) {
+                // Write the Todo string to the file
+                todo_file.write(item.toString());
+                todo_file.write(System.getProperty("line.separator"));
+            }
+
+            todo_file.close();
+
+        } catch (IOException e) {
+            System.out.println("SERVER: Error opening the file writer");
+            e.printStackTrace();
+            return null;
+        }
+
+        // Write file data to input stream
+        try {
+            String path_name = "Server/Todo_list_" + id + ".txt";
+            File todo_file_bytestream = new File(path_name);
+            byte buffer[] = new byte[(int) todo_file_bytestream.length()];
+            BufferedInputStream input_stream = new BufferedInputStream(new FileInputStream(todo_file_bytestream));
+            input_stream.read(buffer, 0, buffer.length);
+            input_stream.close();
+            return buffer;
+        } catch (IOException e) {
+            System.out.println("SERVER: Error could not write to File stream for Client " + id);
+            return null;
+        }
+
+    }
+
 }
