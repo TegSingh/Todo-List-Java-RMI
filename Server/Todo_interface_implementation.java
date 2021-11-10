@@ -1,5 +1,10 @@
 package Server;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.time.LocalDate;
@@ -134,12 +139,50 @@ public class Todo_interface_implementation implements Todo_interface, Serializab
 
     // Method to display the list passed as parameter
     public static void display_list(ArrayList<Todo_item> list) {
-        System.out.println("-------------------------------------------------------------");
+        System.out.println("------------------------------------");
         System.out.println("Your Requested Todo List: ");
         for (Todo_item item : list) {
             System.out.println(item.toString());
         }
-        System.out.println("-------------------------------------------------------------");
+        System.out.println("------------------------------------");
+    }
+
+    // Method to send a file generated in server to client. The file contains a list
+    // of all the Todos
+    public byte[] get_todo_file(int id) {
+
+        // Creating the File using File Writer
+        System.out.println("Client ID " + id + ": Requested Todo File");
+        ArrayList<Todo_item> todo_items = todo_list.get_todo_list();
+        try {
+            FileWriter todo_file = new FileWriter("Server/Todo_list.txt");
+            for (Todo_item item : todo_items) {
+                // Write the Todo string to the file
+                todo_file.write(item.toString());
+                todo_file.write(System.getProperty("line.separator"));
+            }
+
+            todo_file.close();
+
+        } catch (IOException e) {
+            System.out.println("SERVER: Error opening the file writer");
+            e.printStackTrace();
+            return null;
+        }
+
+        // Write file data to input stream
+        try {
+            File todo_file_bytestream = new File("Server/Todo_list.txt");
+            byte buffer[] = new byte[(int) todo_file_bytestream.length()];
+            BufferedInputStream input_stream = new BufferedInputStream(new FileInputStream(todo_file_bytestream));
+            input_stream.read(buffer, 0, buffer.length);
+            input_stream.close();
+            return buffer;
+        } catch (IOException e) {
+            System.out.println("SERVER: Error could not write to File stream for Client " + id);
+            return null;
+        }
+
     }
 
 }

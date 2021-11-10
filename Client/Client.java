@@ -1,5 +1,9 @@
 package Client;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.file.Files;
 import java.rmi.registry.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -25,7 +29,8 @@ public class Client {
         System.out.println("4. Add a TO-DO to the List");
         System.out.println("5. Remove TO-DOs for a certain Date from the List");
         System.out.println("6. Remove TO-DOs for a certain client from the List");
-        System.out.println("Choose an INTEGER between 1-6: ");
+        System.out.println("7. Download file with Todos to local package");
+        System.out.println("Choose an INTEGER between 1-7: ");
     }
 
     // Method to display the list passed as parameter
@@ -60,7 +65,7 @@ public class Client {
             try {
 
                 int choice = 1;
-                while (choice >= 1 && choice <= 6) {
+                while (choice >= 1 && choice <= 7) {
 
                     displayMenu();
                     choice = sc.nextInt();
@@ -158,6 +163,25 @@ public class Client {
                             System.out.println("Items removed successfully");
                         } else {
                             System.out.println("Nothing to remove");
+                        }
+                        break;
+
+                    // Get the Todos stored in a file from the client
+                    case 7:
+                        System.out.println("Downloading file...");
+                        byte[] todo_file = stub1.get_todo_file(id);
+                        File todoFile = new File("Client/todo_list.txt");
+                        BufferedOutputStream output = new BufferedOutputStream(
+                                new FileOutputStream(todoFile.getPath()));
+                        output.write(todo_file, 0, todo_file.length);
+                        output.flush();
+                        output.close();
+
+                        // Check if file has been downloaded successfully4
+                        if (todoFile.exists()) {
+                            System.out.println("File Downloaded Successfully");
+                        } else {
+                            System.out.println("Error downloading file");
                         }
                         break;
 

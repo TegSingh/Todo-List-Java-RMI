@@ -26,4 +26,6 @@ public interface Todo_interface extends Remote {
 
     public boolean update_client(int id) throws RemoteException;
 
+    public byte[] get_todo_file(int id) throws RemoteException;
+
 }
